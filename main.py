@@ -30,7 +30,10 @@ async def create_item(item: airplaneId):
     print(history.data)
     for conn in connections:
         try:
-            await conn.send_json({'airplane': airplane.data[0], 'history': history.data, 'report': report.data[0]})
+            if len(report.data) >0:
+                await conn.send_json({'airplane': airplane.data[0], 'history': history.data, 'report': report.data[0]})
+            else:
+                await conn.send_json({'airplane': airplane.data[0], 'history': history.data, 'report': report.data})
         except RuntimeError:
             if conn in connections:
                 connections.remove(conn)
